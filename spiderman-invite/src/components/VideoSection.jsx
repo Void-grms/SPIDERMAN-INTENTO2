@@ -83,8 +83,7 @@ export default function VideoSection() {
             onEnded={() => setPlaying(false)}
             onError={() => setError(true)}
           >
-            {inView && <source src="/video/invitacion.webm" type="video/webm" />}
-            {inView && <source src="/video/invitacion.mp4" type="video/mp4" />}
+            {inView && <source src="/video/VideoMonicaM.mp4" type="video/mp4" />}
           </video>
 
           {/* Botón play central */}
