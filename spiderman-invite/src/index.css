@@ -1,0 +1,277 @@
+@import "tailwindcss";
+
+/* Fuentes (Clash Display + Satoshi) cargadas vía <link> en index.html. */
+
+/* =========================================================================
+   DESIGN TOKENS (Tailwind v4 @theme) — del PLAN sección 4.
+   Genera utilidades: bg-bg, text-brand, font-display, text-hero, ease-expo...
+   ========================================================================= */
+@theme {
+  /* — Tipografía (escala 1.333) — */
+  --font-display: "Clash Display", "PP Neue Montreal", sans-serif;
+  --font-body: "Satoshi", "General Sans", sans-serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.844rem;
+  --text-base: 1rem;
+  --text-lg: 1.333rem;
+  --text-xl: 1.777rem;
+  --text-2xl: 2.369rem;
+  --text-3xl: 3.157rem;
+  --text-4xl: 4.209rem;
+  --text-5xl: 5.61rem;
+
+  /* — Color (dark cinemático + dualidad Spider-Man) — */
+  --color-bg: #08080a;
+  --color-surface-1: #121217;
+  --color-surface-2: #1a1a22;
+  --color-text-primary: #f5f4f7;
+  --color-text-secondary: #9c9ca8;
+  --color-text-tertiary: #5a5a66;
+  --color-border: rgba(255, 255, 255, 0.07);
+  --color-border-strong: rgba(255, 255, 255, 0.14);
+  --color-brand: #d81f26;
+  --color-brand-deep: #9e141a;
+  --color-brand-glow: #ff3d45;
+  --color-web-blue: #1b2a4a;
+  --color-accent-web: #5fa8ff;
+
+  /* — Espaciado (escala 4/8) — */
+  --spacing-section: 6rem;
+  --spacing-section-lg: 10rem;
+
+  /* — Forma y radios — */
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* — Sombra y glow — */
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.45);
+  --shadow-xl: 0 28px 72px rgba(0, 0, 0, 0.55);
+
+  /* — Easing — */
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-in-out-cine: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Tokens auxiliares no-Tailwind (se usan en CSS/JS directos) */
+:root {
+  --hero: clamp(2.75rem, 9vw, 7.5rem);
+  --leading-tight: 1.06;
+  --leading-snug: 1.2;
+  --leading-normal: 1.6;
+  --tracking-tight: -0.02em;
+  --tracking-wide: 0.12em;
+  --glow-brand: 0 0 40px rgba(216, 31, 38, 0.35);
+  --duration-fast: 180ms;
+  --duration-base: 320ms;
+  --duration-slow: 640ms;
+  --brand-rgb: 216, 31, 38;
+}
+
+/* =========================================================================
+   BASE  — en @layer base para que las utilidades de Tailwind tengan prioridad
+   ========================================================================= */
+@layer base {
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: auto; /* lo controla Lenis */
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  overflow-x: hidden;
+  font-synthesis: none;
+}
+
+::selection {
+  background: var(--color-brand);
+  color: #fff;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* Foco visible themed (a11y) */
+:focus-visible {
+  outline: 2px solid var(--color-brand-glow);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Oculta cursor del sistema solo cuando el cursor custom está activo (desktop) */
+body.has-custom-cursor,
+body.has-custom-cursor * {
+  cursor: none;
+}
+} /* fin @layer base */
+
+/* =========================================================================
+   ATMÓSFERA — overlays reutilizables (sección 4 del plan)
+   ========================================================================= */
+
+/* Grano / noise (4–6%) — SVG fractal inline, sin asset */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Viñeta cinematográfica */
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 120% 90% at 50% 45%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+}
+
+/* Mesh gradient rojo tenue */
+.mesh-brand {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 50% at 50% 30%, rgba(var(--brand-rgb), 0.14), transparent 70%),
+    radial-gradient(50% 60% at 80% 80%, rgba(27, 42, 74, 0.35), transparent 70%);
+}
+
+/* Halftone — puntos rojos densos en bordes, ausentes en el centro */
+.halftone {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    rgba(var(--brand-rgb), 0.5) 1px,
+    transparent 1.6px
+  );
+  background-size: 7px 7px;
+  -webkit-mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, transparent 35%, #000 100%);
+  mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, transparent 35%, #000 100%);
+  opacity: 0.5;
+}
+
+.glow-brand {
+  box-shadow: var(--glow-brand);
+}
+
+/* Aberración cromática del titular del hero (se asienta al cargar) */
+.hero-title {
+  --ab: 0px;
+  text-shadow:
+    calc(var(--ab) * -1) 0 rgba(95, 168, 255, 0.55),
+    var(--ab) 0 rgba(216, 31, 38, 0.55);
+}
+
+/* Bounce lento para el indicador de scroll */
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+.animate-bounce-slow {
+  animation: bounce-slow 1.8s var(--ease-in-out-cine) infinite;
+}
+
+/* SplitText: la máscara recorta el desbordamiento del reveal */
+.rt-line {
+  overflow: hidden;
+}
+
+/* Título de la película en el ticket — protagonista con glow sutil */
+.movie-title {
+  font-size: clamp(2.4rem, 7vw, 3.8rem);
+  letter-spacing: -0.02em;
+  background: linear-gradient(180deg, #ffffff 0%, #f5f4f7 55%, #e7b9bc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 30px rgba(216, 31, 38, 0.25);
+}
+
+/* =========================================================================
+   ANIMACIÓN BASE — evita flash antes de que GSAP tome control
+   ========================================================================= */
+[data-reveal] {
+  will-change: transform, opacity;
+}
+
+/* =========================================================================
+   ACCESIBILIDAD — reduced motion: todo aparece estático
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .grain-overlay {
+    display: none;
+  }
+}
+
+/* Utilidad: contenedor centrado con respiración lateral */
+.container-page {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 5vw, 4rem);
+}

@@ -1,0 +1,13 @@
+import { chromium } from "playwright";
+import path from "node:path"; import { fileURLToPath } from "node:url"; import fs from "node:fs";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const OUT = path.resolve(__dirname, "..", ".shots"); fs.mkdirSync(OUT,{recursive:true});
+const b = await chromium.launch();
+const p = await b.newPage({ viewport:{width:1440,height:900} });
+await p.emulateMedia({ reducedMotion: "reduce" });
+const errs=[]; p.on("pageerror",e=>errs.push(e.message));
+await p.goto(process.argv[2]||"http://localhost:5174/",{waitUntil:"networkidle",timeout:30000});
+await p.waitForTimeout(2000);
+await p.screenshot({ path: path.join(OUT,"rm-hero.png") });
+await b.close();
+console.log(errs.length?errs.join("\n"):"Reduced-motion OK ✔");

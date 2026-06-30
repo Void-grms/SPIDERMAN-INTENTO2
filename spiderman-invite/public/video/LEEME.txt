@@ -1,0 +1,11 @@
+Coloca aquí tu video como:
+
+  invitacion.mp4    (H.264, 720p–1080p, < 15–25 MB)
+  invitacion.webm   (opcional, mejor compresión)
+  poster.jpg        (opcional; si no, se usa /generated/poster-fallback.png)
+
+Para comprimir con ffmpeg:
+  ffmpeg -i original.mov -vf "scale=-2:1080" -c:v libx264 -crf 23 -preset slow -c:a aac -b:a 128k invitacion.mp4
+  ffmpeg -i original.mov -vf "scale=-2:1080" -c:v libvpx-vp9 -crf 33 -b:v 0 -an invitacion.webm
+
+Si no hay video, la sección muestra un marcador elegante (no se rompe).

@@ -1,0 +1,52 @@
+{
+  "hero-plate": {
+    "prompt": "cinematic night cityscape from a rooftop, distant skyscrapers, hazy depth, deep blue-black tones with faint crimson glow on the horizon, light rain, empty negative space upper-center for a title, anamorphic lens feel, 21:9",
+    "model": "google/gemini-3-pro-image",
+    "at": "2026-06-30T20:37:50.575Z"
+  },
+  "plane-back": {
+    "prompt": "distant blurred city skyline silhouette, heavy atmospheric haze, deep blue-black, very soft, isolated on flat neutral dark background, 21:9 wide composition.",
+    "model": "google/gemini-3-pro-image",
+    "at": "2026-06-30T20:39:13.269Z"
+  },
+  "plane-mid": {
+    "prompt": "dark rooftop edges, antennas and water tanks in silhouette, framing the left and bottom edges, completely empty center, isolated on flat dark background, 21:9 wide composition.",
+    "model": "google/gemini-3-pro-image",
+    "at": "2026-06-30T20:39:29.860Z"
+  },
+  "plane-front": {
+    "prompt": "delicate thin spider-web strands stretching across the image corners, dark with faint red highlights, isolated on flat dark background, 21:9 wide composition.",
+    "model": "google/gemini-3-pro-image",
+    "at": "2026-06-30T20:39:48.068Z"
+  },
+  "light-leak": {
+    "prompt": "cinematic light leak, warm crimson and amber streaks bleeding across the frame, soft anamorphic flare, on pure black background for screen blending, 16:9.",
+    "model": "google/gemini-3-pro-image",
+    "at": "2026-06-30T20:40:11.482Z"
+  },
+  "bokeh": {
+    "prompt": "defocused bokeh light particles, small soft circles, crimson and cool blue, floating in dark space, isolated on flat black background, 16:9.",
+    "model": "google/gemini-3-pro-image",
+    "at": "2026-06-30T20:40:34.795Z"
+  },
+  "cinema": {
+    "prompt": "dark empty cinema auditorium, glowing screen, moody red seat lighting, deep cinematic depth, 16:9.",
+    "model": "google/gemini-3-pro-image",
+    "at": "2026-06-30T20:40:59.537Z"
+  },
+  "poster-fallback": {
+    "prompt": "cinematic dark frame, abstract crimson and blue light streaks over a near-black background, subtle film grain, moody, 16:9, suitable as a video poster placeholder.",
+    "model": "google/gemini-3-pro-image",
+    "at": "2026-06-30T20:41:37.258Z"
+  },
+  "og-bg": {
+    "prompt": "cinematic social share background, dark nocturnal city skyline at night with a faint crimson glow on the horizon and cool blue shadows, thin geometric line filaments crossing the corners, large empty center area reserved for a title, balanced cinematic composition, 1.91:1 wide aspect",
+    "model": "google/gemini-3-pro-image",
+    "at": "2026-06-30T20:53:15.455Z"
+  },
+  "ticket-texture": {
+    "prompt": "extreme close-up of a premium dark charcoal material surface, very fine paper fiber grain mixed with subtle brushed metal sheen, faint crimson red light reflection sweeping diagonally, elegant and restrained, seamless flat texture, no objects, no scene",
+    "model": "google/gemini-3-pro-image",
+    "at": "2026-06-30T21:34:03.614Z"
+  }
+}

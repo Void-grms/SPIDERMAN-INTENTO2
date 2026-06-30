@@ -1,0 +1,19 @@
+# Dependencias y build
+**/node_modules
+**/dist
+**/dist-ssr
+
+# Secretos — NUNCA subir
+**/.env
+**/.env.*
+!**/.env.example
+
+# Artefactos de verificación / temporales
+**/.shots
+**/*.local
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store

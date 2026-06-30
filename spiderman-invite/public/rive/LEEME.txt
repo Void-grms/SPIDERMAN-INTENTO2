@@ -1,0 +1,41 @@
+CAPA 3 · RIVE — pieza interactiva estrella (botón RSVP con máquina de estados)
+==============================================================================
+
+Coloca aquí tu archivo:   rsvp.riv
+
+En cuanto exista, la web lo detecta y lo activa SOLO (lazy-load, fuera de la
+ruta crítica). Si no existe, o el visitante tiene "reduce motion", o falla la
+carga → se usa el botón animado con GSAP que ya funciona. No tienes que tocar
+código: es plug-and-play.
+
+------------------------------------------------------------------------------
+CONTRATO que debe cumplir el .riv (auteralo en el editor de Rive — rive.app):
+------------------------------------------------------------------------------
+  · Artboard:        el que sea (se usa el principal por defecto)
+  · State Machine:   "RSVP"          (nombre EXACTO)
+  · Inputs:
+       - hover     →  Boolean   (true al pasar el cursor, false al salir)
+       - fire      →  Trigger   (se dispara al hacer clic — animación de "web-shot")
+       - success   →  Boolean   (pasa a true al confirmar — estado final "✓")
+
+  Tamaño de diseño recomendado: ~240 x 72 px (el contenedor es una píldora).
+  Estados sugeridos:  idle → hover → (clic) disparo → éxito.
+
+------------------------------------------------------------------------------
+CÓMO CREARLO (sin código):
+------------------------------------------------------------------------------
+  1. Entra a https://rive.app (editor gratuito, web o escritorio).
+  2. Crea un Artboard ~240x72. Dibuja el botón "Sí, voy" + glifo de araña.
+  3. Añade un State Machine llamado "RSVP".
+  4. Crea los inputs: hover (Bool), fire (Trigger), success (Bool).
+  5. Conecta transiciones: idle⇄hover (por hover), hover→disparo (por fire),
+     disparo→éxito (cuando success = true).
+  6. Exporta / "Download for runtime" → guarda el .riv aquí como rsvp.riv.
+
+ALTERNATIVA: descarga un botón con state machine de la Rive Community
+(https://rive.app/community) que exponga inputs equivalentes y renómbralos
+a hover / fire / success, o ajusta los nombres en src/components/motion/RiveButton.jsx.
+
+NOTA DE PERFORMANCE: el runtime de Rive (~200 KB WASM) solo se descarga si este
+archivo existe. Para precargarlo, puedes añadir en index.html:
+  <link rel="preload" href="/rive/rsvp.riv" as="fetch" crossorigin>
