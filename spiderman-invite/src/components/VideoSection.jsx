@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInViewVideo } from "../hooks/useInViewVideo";
 import { IconPlay, IconPause } from "./ui/Icons";
+import { isSoundOn, onSoundChange, setSoundOn, hasUserToggledSound } from "../lib/sound";
 import { copy } from "../content/copy";
 
 // Pieza central. Controles minimalistas, carga al entrar en viewport, modo cine.
@@ -18,10 +19,23 @@ export default function VideoSection() {
     if (inView) videoRef.current?.load();
   }, [inView]);
 
+  // El botón de volumen global controla el mute del video (en vivo).
+  useEffect(() => {
+    const apply = (on) => {
+      const v = videoRef.current;
+      if (v) v.muted = !on;
+    };
+    apply(isSoundOn());
+    return onSoundChange(apply);
+  }, []);
+
   const toggle = () => {
     const v = videoRef.current;
     if (!v) return;
     if (v.paused) {
+      // Al reproducir, activa el sonido salvo que el usuario ya lo haya
+      // ajustado manualmente con el botón de volumen.
+      if (!hasUserToggledSound()) setSoundOn(true);
       v.play().then(() => setPlaying(true)).catch(() => setError(true));
     } else {
       v.pause();

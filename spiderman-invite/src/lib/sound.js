@@ -6,18 +6,38 @@ let enabled =
   typeof localStorage !== "undefined" && localStorage.getItem(KEY) === "1";
 
 const listeners = new Set();
+let userToggled = false;
+
 export const isSoundOn = () => enabled;
+export const hasUserToggledSound = () => userToggled;
+
 export function onSoundChange(fn) {
   listeners.add(fn);
   return () => listeners.delete(fn);
 }
 
-export function toggleSound() {
-  enabled = !enabled;
-  localStorage.setItem(KEY, enabled ? "1" : "0");
+function setEnabled(next) {
+  if (enabled === next) return enabled;
+  enabled = next;
+  try {
+    localStorage.setItem(KEY, enabled ? "1" : "0");
+  } catch {
+    /* almacenamiento no disponible */
+  }
   if (enabled) ensureCtx();
   listeners.forEach((fn) => fn(enabled));
   return enabled;
+}
+
+// Toggle manual (botón de volumen). Marca que el usuario ajustó el sonido.
+export function toggleSound() {
+  userToggled = true;
+  return setEnabled(!enabled);
+}
+
+// Fuerza un estado (p. ej. al darle play al video). No cuenta como ajuste manual.
+export function setSoundOn(on) {
+  return setEnabled(on);
 }
 
 function ensureCtx() {
