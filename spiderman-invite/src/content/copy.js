@@ -6,8 +6,8 @@
 export const config = {
   // — Datos personales (rellénalos) —
   nombreElla: "[Su nombre]", //            ◀ EDITAR
-  tuNombre: "[Tu nombre]", //              ◀ EDITAR
-  whatsapp: "51999999999", //              ◀ EDITAR  (código país + número, sin +, sin espacios)
+  tuNombre: "Fer", //              ◀ EDITAR
+  whatsapp: "51970642671", //              ◀ EDITAR  (código país + número, sin +, sin espacios)
 
   // — Evento —
   pelicula: "Spider-Man: Brand New Day",
@@ -45,10 +45,10 @@ export const copy = {
   reconnect: {
     // Variante B (sincera). Alternativas en el PLAN sección 10.
     lineas: [
-      "Sé que ha pasado un rato.",
-      "Más de un rato, la verdad.",
-      "No vengo con un discurso —",
-      "solo con ganas de volver a verte, sin complicarlo.",
+      "Sé que ha pasado un tiempo.",
+      "Mmucho más que un tiempo, la verdad.",
+      "Pero me acordé de ti, y pense que esto",
+      "es mejor que un simple ''Hola'' de la nada",
     ],
   },
 
@@ -60,8 +60,8 @@ export const copy = {
 
   // — 5. Invitación (ticket) —
   invitation: {
-    kicker: "Admit One",
-    titulo: "Tu entrada",
+    kicker: "CINEMA TICKET",
+    titulo: "ADMID TWO",
     peliculaTitulo: config.peliculaTitulo,
     peliculaSub: config.peliculaSub,
     sello: config.fechaCorta,
@@ -81,7 +81,7 @@ export const copy = {
     pregunta: "¿Vienes conmigo?",
     sub: "Sin presión. Solo una película y nosotros dos poniéndonos al día.",
     primario: "Sí, voy",
-    secundario: "Hablemos primero",
+    secundario: "Nel",
     // Tras confirmar:
     confirmado: "Te veo el 31.",
     confirmadoSub: "Trae hambre de canchita. 🍿",
