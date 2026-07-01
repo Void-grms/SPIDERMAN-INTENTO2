@@ -3,6 +3,7 @@ import { gsap, useGSAP, ScrollTrigger } from "../lib/gsap";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 import { IconPin, IconClock, IconCalendar } from "./ui/Icons";
 import FakeQR from "./ui/FakeQR";
+import Stamp from "./ui/Stamp";
 import { copy } from "../content/copy";
 
 const iconFor = { Fecha: IconCalendar, Hora: IconClock, Lugar: IconPin };
@@ -12,7 +13,7 @@ function Barcode() {
   const widths = "13231221312312132213122131231221".split("").map(Number);
   let x = 0;
   return (
-    <svg viewBox="0 0 64 16" className="h-6 w-40" preserveAspectRatio="none" aria-hidden="true">
+    <svg viewBox="0 0 64 16" className="h-6 w-28 max-w-full sm:w-40" preserveAspectRatio="none" aria-hidden="true">
       {widths.map((w, i) => {
         const rect = i % 2 === 0 ? <rect key={i} x={x} y="0" width={w} height="16" fill="currentColor" /> : null;
         x += w + 0.6;
@@ -25,6 +26,9 @@ function Barcode() {
 export default function Invitation() {
   const root = useRef(null);
   const reduced = useReducedMotion();
+
+  // "31 JUL" → día + mes para el sello
+  const [selloDay = "31", selloMonth = "JUL"] = (copy.invitation.sello || "").split(" ");
 
   useGSAP(
     () => {
@@ -61,7 +65,7 @@ export default function Invitation() {
     <section
       ref={root}
       id="invitation"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-bg py-28"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-bg py-20 sm:py-28"
     >
       {/* Fondo: sala de cine (atenuada) para dar contexto, el ticket flota encima */}
       <div className="absolute inset-0">
@@ -90,7 +94,7 @@ export default function Invitation() {
           <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
 
           {/* ===== A · Header + título — (móvil: 1º · desktop: col1/fila1) ===== */}
-          <div className="order-1 p-8 sm:p-10 md:col-start-1 md:row-start-1 md:pb-0">
+          <div className="order-1 p-6 sm:p-8 md:col-start-1 md:row-start-1 md:p-10 md:pb-0">
             <div className="mb-6 flex items-start justify-between">
               <div>
                 <p className="text-xs uppercase tracking-[0.3em] text-text-tertiary">
@@ -98,15 +102,13 @@ export default function Invitation() {
                 </p>
                 <p className="mt-1 text-sm text-text-secondary">{copy.invitation.titulo}</p>
               </div>
-              {/* sello de fecha */}
-              <div
+              {/* sello de tinta (fecha) */}
+              <span
                 data-stamp
-                className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-full border-2 border-brand text-brand"
-                style={{ boxShadow: "var(--glow-brand)" }}
+                className="block h-16 w-16 shrink-0 text-brand sm:h-[4.75rem] sm:w-[4.75rem]"
               >
-                <span className="font-display text-lg font-bold leading-none">31</span>
-                <span className="text-[0.6rem] uppercase tracking-wider">JUL</span>
-              </div>
+                <Stamp day={selloDay} month={selloMonth} className="h-full w-full" />
+              </span>
             </div>
 
             {/* Título de la película — protagonista */}
@@ -117,14 +119,14 @@ export default function Invitation() {
               <h2 className="movie-title font-display font-bold uppercase leading-[0.92] text-text-primary">
                 {copy.invitation.peliculaTitulo}
               </h2>
-              <p className="mt-1 font-display text-xl font-medium tracking-[0.18em] text-brand-glow sm:text-2xl">
+              <p className="mt-1 font-display text-lg font-medium tracking-[0.1em] text-brand-glow sm:text-2xl sm:tracking-[0.18em]">
                 {copy.invitation.peliculaSub}
               </p>
             </div>
           </div>
 
           {/* ===== C · Talón con QR — (móvil: 2º, debajo del título · desktop: col2 full) ===== */}
-          <div className="relative order-2 flex flex-col items-center justify-center gap-3 border-y border-dashed border-border-strong bg-surface-1/50 p-8 md:order-none md:col-start-2 md:row-span-2 md:row-start-1 md:border-y-0 md:border-l">
+          <div className="relative order-2 flex flex-col items-center justify-center gap-3 border-y border-dashed border-border-strong bg-surface-1/50 p-6 sm:p-8 md:order-none md:col-start-2 md:row-span-2 md:row-start-1 md:border-y-0 md:border-l">
             {/* notches del perforado (sólo desktop, en la costura vertical) */}
             <span className="absolute -left-3 -top-3 hidden h-6 w-6 rounded-full bg-surface-1 md:block" />
             <span className="absolute -bottom-3 -left-3 hidden h-6 w-6 rounded-full bg-surface-1 md:block" />
@@ -141,12 +143,12 @@ export default function Invitation() {
           </div>
 
           {/* ===== B · Datos + barcode — (móvil: 3º · desktop: col1/fila2) ===== */}
-          <div className="order-3 p-8 sm:p-10 md:col-start-1 md:row-start-2 md:border-t md:border-dashed md:border-border-strong md:pt-6">
+          <div className="order-3 p-6 sm:p-8 md:col-start-1 md:row-start-2 md:border-t md:border-dashed md:border-border-strong md:p-10 md:pt-6">
             <dl className="space-y-4">
               {copy.invitation.filas.map((row) => {
                 const Icon = iconFor[row.label] || IconCalendar;
                 return (
-                  <div key={row.label} data-row className="flex items-center gap-4">
+                  <div key={row.label} data-row className="flex items-center gap-3 sm:gap-4">
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand">
                       <Icon width={20} height={20} />
                     </span>
@@ -154,7 +156,7 @@ export default function Invitation() {
                       <dt className="text-xs uppercase tracking-wider text-text-tertiary">
                         {row.label}
                       </dt>
-                      <dd className="truncate font-display text-lg text-text-primary">
+                      <dd className="font-display text-base leading-snug text-text-primary [overflow-wrap:anywhere] sm:text-lg">
                         {row.value}
                       </dd>
                     </div>
@@ -163,11 +165,11 @@ export default function Invitation() {
               })}
             </dl>
 
-            <div className="mt-8 flex items-center justify-between text-text-tertiary">
-              <span className="text-brand/70">
+            <div className="mt-6 flex items-center justify-between gap-3 text-text-tertiary sm:mt-8">
+              <span className="min-w-0 shrink text-brand/70">
                 <Barcode />
               </span>
-              <span className="font-mono text-xs tracking-wider">{copy.invitation.paseId}</span>
+              <span className="shrink-0 font-mono text-[0.7rem] tracking-wider sm:text-xs">{copy.invitation.paseId}</span>
             </div>
           </div>
         </div>

@@ -235,8 +235,10 @@ body.has-custom-cursor * {
 
 /* Título de la película en el ticket — protagonista con glow sutil */
 .movie-title {
-  font-size: clamp(2.4rem, 7vw, 3.8rem);
+  font-size: clamp(2rem, 8.5vw, 3.8rem);
   letter-spacing: -0.02em;
+  overflow-wrap: break-word;
+  hyphens: none;
   background: linear-gradient(180deg, #ffffff 0%, #f5f4f7 55%, #e7b9bc 100%);
   -webkit-background-clip: text;
   background-clip: text;
