@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInViewVideo } from "../hooks/useInViewVideo";
 import { IconPlay, IconPause } from "./ui/Icons";
@@ -11,6 +11,12 @@ export default function VideoSection() {
   const [playing, setPlaying] = useState(false);
   const [error, setError] = useState(false);
   const [progress, setProgress] = useState(0);
+
+  // Al entrar en viewport se añade el <source> dinámicamente; registrarlo con
+  // load() para que play() no falle en algunos navegadores (source tardío).
+  useEffect(() => {
+    if (inView) videoRef.current?.load();
+  }, [inView]);
 
   const toggle = () => {
     const v = videoRef.current;
@@ -86,28 +92,45 @@ export default function VideoSection() {
             {inView && <source src="/video/VideoMonicaM.mp4" type="video/mp4" />}
           </video>
 
-          {/* Botón play central */}
+          {/* Botón play central (cuando no se reproduce) */}
           {!playing && (
             <button
               onClick={toggle}
               aria-label="Reproducir video"
               className="absolute inset-0 z-20 flex items-center justify-center"
             >
-              <span className="flex h-20 w-20 items-center justify-center rounded-full border border-white/30 bg-black/40 text-white backdrop-blur-md transition-transform duration-300 hover:scale-110 hover:border-brand">
+              <span className="relative flex h-20 w-20 items-center justify-center rounded-full border border-white/30 bg-black/40 text-white backdrop-blur-md transition-transform duration-300 hover:scale-110 hover:border-brand">
                 <span className="absolute inline-flex h-20 w-20 animate-ping rounded-full bg-brand/20" />
-                <IconPlay width={30} height={30} className="ml-1" />
+                <IconPlay width={30} height={30} className="relative ml-1" />
               </span>
             </button>
           )}
 
-          {/* Controles inferiores (aparecen al hover/tap) */}
-          <div className="absolute inset-x-0 bottom-0 z-20 flex items-center gap-3 bg-gradient-to-t from-black/70 to-transparent px-4 pb-3 pt-8 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            <button onClick={toggle} aria-label={playing ? "Pausar" : "Reproducir"} className="text-white">
+          {/* Zona táctil para pausar tocando el video (cuando se reproduce) */}
+          {playing && (
+            <button
+              onClick={toggle}
+              aria-label="Pausar video"
+              className="absolute inset-0 z-10"
+            />
+          )}
+
+          {/* Controles inferiores: visibles al reproducir (táctil) y al hover (desktop) */}
+          <div
+            className={`absolute inset-x-0 bottom-0 z-30 flex items-center gap-3 bg-gradient-to-t from-black/80 to-transparent px-4 pb-3 pt-8 transition-opacity duration-300 group-hover:pointer-events-auto group-hover:opacity-100 ${
+              playing ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+            }`}
+          >
+            <button
+              onClick={toggle}
+              aria-label={playing ? "Pausar" : "Reproducir"}
+              className="shrink-0 text-white"
+            >
               {playing ? <IconPause width={22} height={22} /> : <IconPlay width={22} height={22} />}
             </button>
             <div
               onClick={seek}
-              className="h-1 flex-1 cursor-pointer overflow-hidden rounded-full bg-white/20"
+              className="h-1.5 flex-1 cursor-pointer overflow-hidden rounded-full bg-white/25"
             >
               <div className="h-full bg-brand" style={{ width: `${progress}%` }} />
             </div>
